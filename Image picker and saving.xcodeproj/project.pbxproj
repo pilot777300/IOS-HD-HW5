@@ -7,14 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		043480EC298F8964003992B6 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 043480EB298F8964003992B6 /* KeychainAccess */; };
+		043480EE298F89FF003992B6 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043480ED298F89FF003992B6 /* AuthViewController.swift */; };
 		0443FA86298A859500E1A54F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0443FA85298A859500E1A54F /* AppDelegate.swift */; };
 		0443FA88298A859500E1A54F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0443FA87298A859500E1A54F /* SceneDelegate.swift */; };
 		0443FA8F298A859C00E1A54F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0443FA8E298A859C00E1A54F /* Assets.xcassets */; };
 		0443FA92298A859C00E1A54F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0443FA90298A859C00E1A54F /* LaunchScreen.storyboard */; };
 		0443FA9A298A86D300E1A54F /* PicturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0443FA99298A86D300E1A54F /* PicturesViewController.swift */; };
+		044F906F2997C56000710765 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F906E2997C56000710765 /* SettingsViewController.swift */; };
+		044F90712997DC3A00710765 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F90702997DC3900710765 /* TabBar.swift */; };
+		044F90732997F68700710765 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F90722997F68700710765 /* ChangePasswordViewController.swift */; };
+		04A71C322998DD65000CD505 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A71C312998DD65000CD505 /* TableViewCell.swift */; };
+		04E6FE2F299FC43E0061B75A /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FE2E299FC43E0061B75A /* UserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		043480ED298F89FF003992B6 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		0443FA82298A859500E1A54F /* Image picker and saving.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Image picker and saving.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0443FA85298A859500E1A54F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0443FA87298A859500E1A54F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -22,6 +30,11 @@
 		0443FA91298A859C00E1A54F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0443FA93298A859C00E1A54F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0443FA99298A86D300E1A54F /* PicturesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturesViewController.swift; sourceTree = "<group>"; };
+		044F906E2997C56000710765 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		044F90702997DC3900710765 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		044F90722997F68700710765 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		04A71C312998DD65000CD505 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		04E6FE2E299FC43E0061B75A /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				043480EC298F8964003992B6 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,7 +70,13 @@
 			children = (
 				0443FA85298A859500E1A54F /* AppDelegate.swift */,
 				0443FA87298A859500E1A54F /* SceneDelegate.swift */,
+				044F90702997DC3900710765 /* TabBar.swift */,
 				0443FA99298A86D300E1A54F /* PicturesViewController.swift */,
+				043480ED298F89FF003992B6 /* AuthViewController.swift */,
+				044F906E2997C56000710765 /* SettingsViewController.swift */,
+				04E6FE2E299FC43E0061B75A /* UserDefaults.swift */,
+				04A71C312998DD65000CD505 /* TableViewCell.swift */,
+				044F90722997F68700710765 /* ChangePasswordViewController.swift */,
 				0443FA8E298A859C00E1A54F /* Assets.xcassets */,
 				0443FA90298A859C00E1A54F /* LaunchScreen.storyboard */,
 				0443FA93298A859C00E1A54F /* Info.plist */,
@@ -80,6 +100,9 @@
 			dependencies = (
 			);
 			name = "Image picker and saving";
+			packageProductDependencies = (
+				043480EB298F8964003992B6 /* KeychainAccess */,
+			);
 			productName = "Image picker and saving";
 			productReference = 0443FA82298A859500E1A54F /* Image picker and saving.app */;
 			productType = "com.apple.product-type.application";
@@ -108,6 +131,9 @@
 				Base,
 			);
 			mainGroup = 0443FA79298A859500E1A54F;
+			packageReferences = (
+				043480EA298F8964003992B6 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+			);
 			productRefGroup = 0443FA83298A859500E1A54F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -134,9 +160,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				043480EE298F89FF003992B6 /* AuthViewController.swift in Sources */,
+				04A71C322998DD65000CD505 /* TableViewCell.swift in Sources */,
 				0443FA9A298A86D300E1A54F /* PicturesViewController.swift in Sources */,
 				0443FA86298A859500E1A54F /* AppDelegate.swift in Sources */,
+				044F90712997DC3A00710765 /* TabBar.swift in Sources */,
+				04E6FE2F299FC43E0061B75A /* UserDefaults.swift in Sources */,
+				044F906F2997C56000710765 /* SettingsViewController.swift in Sources */,
 				0443FA88298A859500E1A54F /* SceneDelegate.swift in Sources */,
+				044F90732997F68700710765 /* ChangePasswordViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +376,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		043480EA298F8964003992B6 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		043480EB298F8964003992B6 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 043480EA298F8964003992B6 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0443FA7A298A859500E1A54F /* Project object */;
 }

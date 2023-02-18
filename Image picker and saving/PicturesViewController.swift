@@ -9,12 +9,13 @@ struct Picture {
 
 class PicturesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    var tableView = UITableView()
+   lazy var tableView = UITableView()
     let navbar = UINavigationBar()
     let cellReuseIdentifier = "cell"
-    var picture = [Picture]()
-    var picturesToShow = [UIImage]()
+   lazy var picture = [Picture]()
+  lazy var picturesToShow = [UIImage]()
     
+ 
     func addNavBar() {
         view.addSubview(navbar)
         navbar.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +34,7 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.rowHeight = 100
         tableView.allowsSelection = false
         tableView.separatorStyle = .singleLine
-                }
+    }
     
     func getImageFromDocumentDirectory() -> [UIImage] {
         let images = [UIImage]()
@@ -41,18 +42,23 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
         do {
             let documentsDirectoryURL = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             
-          
             let folderURL = documentsDirectoryURL//.appendingPathComponent("\(documentsDirectoryURL)")
             let urls = try fileManager.contentsOfDirectory(at: folderURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
             for url in urls {
+                
                 if let data = try? Data(contentsOf: url),
-                   let image = UIImage(data: data) {
+                   let image = UIImage(data: data)
+                {
                     picturesToShow.append(image)
-                    print("IMAGES: \(images)")
-                   
+                    let fileURL: String = "\(url)"
+                    let fileName = URL(fileURLWithPath: fileURL).deletingPathExtension().lastPathComponent
+                    let pic = Picture(name: fileName, image: image)
+                    picture.append(pic)
+                  
                 }
             }
-            print("PPS COUNT: \(picturesToShow.count)")
+           // print("PPS COUNT: \(picturesToShow.count)")
+          //  print("PICTURES: \(picture)")
         } catch {
             print(error.localizedDescription)
         }
@@ -72,10 +78,10 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-        
         ])
     }
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
@@ -83,6 +89,7 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
         setUpTableView()
         setupConstraints()
         getImageFromDocumentDirectory()
+        self.tableView.reloadData()
     }
     
     @objc func addPictureButtonPressed() {
@@ -98,18 +105,41 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
       }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) //as! TableViewCell
         let width = UIScreen.main.bounds.width - 250
         let height = UIScreen.main.bounds.height / 7
         let cellImg : UIImageView = UIImageView(frame: CGRect(x: 5, y: 0,
                                                               width: width,
                                                               height: height))
-  
-        cellImg.image = picturesToShow[indexPath.row]
+        
+        let lbl = TableViewCell()
+        let settings = SettingsViewController()
         cell.addSubview(cellImg)
+        cell.addSubview(lbl.pictureName)
         cell.backgroundColor = .white
         cell.clipsToBounds = true
         cell.contentMode = .scaleAspectFit
+        
+        if settings.switcher.isOn == true {
+            picture.sort(by: {$0.name < $1.name})
+            cell.textLabel?.text = picture[indexPath.row].name
+            cellImg.image = picture[indexPath.row].image
+
+        let picName = picture[indexPath.row].name
+        cellImg.image = picture[indexPath.row].image
+        lbl.pictureName.text = picName
+        } else {
+            picture.sort(by: {$0.name > $1.name})
+            
+            cell.textLabel?.text = picture[indexPath.row].name
+            cellImg.image = picture[indexPath.row].image
+            
+            let picName = picture[indexPath.row].name //
+            cellImg.image = picture[indexPath.row].image
+            lbl.pictureName.text = picName //
+            self.tableView.reloadData()
+        }
+
         return cell
       }
     
@@ -176,4 +206,6 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
         present(alert, animated: true, completion: nil)
         self.dismiss(animated: true, completion: nil)
     }
+        
+       
 }
