@@ -7,8 +7,6 @@ class AuthViewController: UIViewController {
     
   let keyChain = Keychain()
     
-   // var passwords = [String]()
-    
     var isUserAuthorised: Bool = true {
         willSet {
             if newValue {
@@ -149,7 +147,6 @@ class AuthViewController: UIViewController {
             checkUserAuthorisation()
         } else {                                // незарег
             registerUser()
-            //registerButtonPressed()
             }
         }
 
@@ -162,9 +159,7 @@ class AuthViewController: UIViewController {
         }
 
     func registerUser() {
-       // isUserAuthorised = !isUserAuthorised
         let pass = passTxtField.text!
-        
         if !pass.isEmpty && pass.count >= 5 {
             let keychain: Keychain
             if let service = passTxtField.text, !service.isEmpty {
@@ -174,10 +169,8 @@ class AuthViewController: UIViewController {
             }
             keychain[passTxtField.text!] = passTxtField.text
             print("Keychain =\(keychain)")
-        
-            let vc = PicturesViewController()
-            present(vc, animated: true, completion: nil)
-            showAlertSuccessReg()
+            self.pereatPasswordTxt.text = "Необходимо повторить пароль"
+            repeatPassEnter()
         } else {
             showAlertEmptyTxtField()
         }
@@ -194,21 +187,19 @@ class AuthViewController: UIViewController {
                 keychain = Keychain()
             }
             if keychain.allKeys().contains(pass) {
-                let vc = PicturesViewController()
+                self.dismiss(animated: true)
+                let vc = TabBar()
                 present(vc, animated: true, completion: nil)
                     print("USER AUTHORISED")
+                
             } else {
-               // return
                 showAlert()
                 passTxtField.text = ""
                 registerButtonPressed()
-               // isUserAuthorised = !isUserAuthorised
-               //registerUser()
             }
         } else {
             self.showAlertEmptyTxtField()
         }
-    
     }
     
     func showAlert() {
@@ -216,17 +207,9 @@ class AuthViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: { [self] in
                                             registerButtonPressed()
-                                            //isUserAuthorised = !isUserAuthorised
-                                           // registerUser()
-                                                        })
-      
+                })
     }
     
-    func enterPasswordAgain() {
-        let alert = UIAlertController(title: "Введите пароль еще раз", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: {self.pereatPasswordTxt.isHidden = false})
-    }
     
     func showAlertEmptyTxtField() {
         let alert = UIAlertController(title: "Пароль должен быть не менее 5 символов ", message: nil, preferredStyle: .alert)
@@ -234,11 +217,53 @@ class AuthViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func showAlertSuccessReg() {
-        let alert = UIAlertController(title: "Вы успешно зарегистрированы", message: nil, preferredStyle: .alert)
+    func showAlertNotMatchedPasswords() {
+        let alert = UIAlertController(title: "Пароли не совпадают. Попробуйте еще раз ", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
-}
+    func showAlertSuccessReg() {
+        let alert = UIAlertController(title: "Вы успешно зарегистрированы", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
+            print("CLOSURE")
+            let vc = TabBar()
+            self.present(vc, animated: true) }
+            )
+        )
+        
+        present(alert, animated: true)
+    }
+    
+    func repeatPassEnter() {
+        let alert = UIAlertController(title: "Повторите пароль", message: nil , preferredStyle: .alert)
+        alert.addTextField(configurationHandler: {textField in
+            textField.placeholder = "Пароль не менее 5 символов"
+            textField.isSecureTextEntry = true
+        })
+        alert.addAction (UIAlertAction(title: "OK", style: .default) { _ in
+            let textField = alert.textFields![0]
+            let pass = textField.text!
+            if !pass.isEmpty {
+                let keychain: Keychain
+                if let service = textField.text, !service.isEmpty {
+                    keychain = Keychain(service: service)
+                } else {
+                    keychain = Keychain()
+                }
+                if keychain.allKeys().contains(pass) {
+                   let vc = TabBar()
+                    self.present(vc, animated: true)
+                } else {
+                    self.showAlertNotMatchedPasswords()
+                }
+            } else {
+                self.showAlertEmptyTxtField()
+            }
+         
+            
+        })
+        present(alert, animated: true, completion: nil)
+        }
+    }
 

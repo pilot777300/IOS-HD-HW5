@@ -9,14 +9,17 @@ struct Picture {
 
 class PicturesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-   lazy var tableView = UITableView()
-    let navbar = UINavigationBar()
+  private lazy var tableView = UITableView()
+   private let navbar = UINavigationBar()
     let cellReuseIdentifier = "cell"
-   lazy var picture = [Picture]()
+  private lazy var picture = [Picture]()
   lazy var picturesToShow = [UIImage]()
-    
+  private lazy var setingsVC = SettingsViewController()
+    var switcherState = false
+   
+
  
-    func addNavBar() {
+    fileprivate func addNavBar() {
         view.addSubview(navbar)
         navbar.translatesAutoresizingMaskIntoConstraints = false
         let navItem = UINavigationItem(title: "Фото")
@@ -36,7 +39,7 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.separatorStyle = .singleLine
     }
     
-    func getImageFromDocumentDirectory() -> [UIImage] {
+    fileprivate func getImageFromDocumentDirectory() -> [UIImage] {
         let images = [UIImage]()
         let fileManager = FileManager.default
         do {
@@ -57,15 +60,13 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
                   
                 }
             }
-           // print("PPS COUNT: \(picturesToShow.count)")
-          //  print("PICTURES: \(picture)")
         } catch {
             print(error.localizedDescription)
         }
         return images
     }
     
-    func setupConstraints() {
+    fileprivate func setupConstraints() {
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             
@@ -89,6 +90,12 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
         setUpTableView()
         setupConstraints()
         getImageFromDocumentDirectory()
+    }
+    
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         self.tableView.reloadData()
     }
     
@@ -96,16 +103,16 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
         let vc = UIImagePickerController()
         vc.delegate = self
         vc.sourceType = .photoLibrary
-        present(vc, animated: true, completion: nil)
+        self.present(vc, animated: true)
     }
       
       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
   
-          return picturesToShow.count
+          return  picture.count
       }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) //as! TableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) 
         let width = UIScreen.main.bounds.width - 250
         let height = UIScreen.main.bounds.height / 7
         let cellImg : UIImageView = UIImageView(frame: CGRect(x: 5, y: 0,
@@ -113,14 +120,13 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
                                                               height: height))
         
         let lbl = TableViewCell()
-        let settings = SettingsViewController()
         cell.addSubview(cellImg)
         cell.addSubview(lbl.pictureName)
         cell.backgroundColor = .white
         cell.clipsToBounds = true
         cell.contentMode = .scaleAspectFit
         
-        if settings.switcher.isOn == true {
+        if defaults.bool(forKey: "value") {
             picture.sort(by: {$0.name < $1.name})
             cell.textLabel?.text = picture[indexPath.row].name
             cellImg.image = picture[indexPath.row].image
@@ -128,6 +134,7 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
         let picName = picture[indexPath.row].name
         cellImg.image = picture[indexPath.row].image
         lbl.pictureName.text = picName
+          
         } else {
             picture.sort(by: {$0.name > $1.name})
             
@@ -137,9 +144,8 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
             let picName = picture[indexPath.row].name //
             cellImg.image = picture[indexPath.row].image
             lbl.pictureName.text = picName //
-            self.tableView.reloadData()
         }
-
+      
         return cell
       }
     
@@ -153,7 +159,7 @@ class PicturesViewController: UIViewController, UITableViewDelegate, UITableView
            
             picturesToShow.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-       //----------  удаление файла
+        // -----удаление файла
             
             let fileManager = FileManager.default
             do {

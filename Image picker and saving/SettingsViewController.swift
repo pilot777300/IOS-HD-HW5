@@ -4,7 +4,7 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-   lazy var tableView = UITableView()
+  private lazy var tableView = UITableView()
     let cellReuseIdentifier = "TableViewCell"
     let textForCell = ["Сортировка по алфавиту", "Сменить пароль"]
     
@@ -12,8 +12,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         let swtc = UISwitch(frame: CGRect(x: 325, y: 40,
                                           width: 20,
                                           height: 10))
-     
-       swtc.setOn(true, animated: false)
+       
+       
        swtc.addTarget(self, action: #selector(switcherAction), for: .valueChanged)
        return swtc
     }()
@@ -24,8 +24,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         view.addSubview(tableView)
         setUpTableView()
         setupConstraints()
-        
     }
+    
     fileprivate func setUpTableView() {
         tableView.backgroundColor = .white
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +35,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.rowHeight = 100
         tableView.allowsSelection = true
         tableView.separatorStyle = .singleLine
-            }
+    }
     
     func setupConstraints() {
         let safeArea = view.safeAreaLayoutGuide
@@ -49,11 +49,16 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
    @objc func switcherAction(_sender: UISwitch) {
-       let key = switcher.isOn
-       defaults.set(false, forKey: "\(key)")
-       let vc = PicturesViewController()
-       self.navigationController?.pushViewController(vc, animated: true)
-       vc.tableView.reloadData()
+       if  switcher.isOn {
+           defaults.set(true, forKey: "value")
+           let vc = PicturesViewController()
+          navigationController?.pushViewController(vc, animated: true)
+          vc.tabBarController?.tabBar.items?[0].isEnabled = false
+         
+       } else {
+           defaults.set(false, forKey: "value")
+           self.tabBarController?.tabBar.items?[0].isEnabled = true
+       }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
